@@ -45,7 +45,7 @@ abaaso.on("init", function () {
 		// Routing listeners
 		routes = {
 			error : function () {
-				$.error($.label.common.error.invalidArguments);
+				$.error($.label.error.invalidArguments);
 			}
 		}
 
