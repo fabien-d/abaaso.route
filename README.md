@@ -1,5 +1,5 @@
 # abaaso.route
-This module makes it extremely easy to put an event listener on a URI hashtag:
+abaaso.route makes routing a URI hashtag to a method/function easy:
 
 *$.route.set("hash", function () { alert("viewing #hash!"); });*
 
