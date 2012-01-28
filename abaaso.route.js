@@ -75,12 +75,13 @@ abaaso.on("init", function () {
 
 		/**
 		 * Sets a route for a URI
-		 * @param  {[type]} name    [description]
-		 * @param  {[type]} handler [description]
-		 * @return {[type]}
+		 * 
+		 * @param  {String}   name Route name
+		 * @param  {Function} fn   Route listener
+		 * @return {Undefined} undefined
 		 */
-		set = function (name, handler) {
-			routes[name] = handler;
+		set = function (name, fn) {
+			routes[name] = fn;
 		};
 
 		// Setting listener
