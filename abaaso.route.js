@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 1.8
- * @version 1.0
+ * @version 1.1
  */
 abaaso.on("init", function () {
 	var $ = window[abaaso.aliased],
@@ -53,10 +53,17 @@ abaaso.on("init", function () {
 		 * Deletes a route
 		 * 
 		 * @param  {String} name Route name
-		 * @return {Undefined} undefined
+		 * @return {Mixed} True or undefined
 		 */
 		del = function (name) {
-			delete routes[name];
+			try {
+				if (name !== "error" && routes.hasOwnProperty(name)) return (delete routes[name]);
+				else throw Error($.label.error.invalidArguments);
+			}
+			catch (e) {
+				$.error(e, arguments, this);
+				return undefined;
+			}
 		};
 
 		/**
@@ -65,12 +72,13 @@ abaaso.on("init", function () {
 		 * @method load
 		 * @module dashboard
 		 * @param  {String} name Route to load
-		 * @return {Undefined} undefined
+		 * @return {Mixed} True or undefined
 		 */
 		load = function (name) {
-			name = name.replace(/\#|\!\//, "");
+			name = name.replace(/\#|\!\//g, "");
 			if (!routes.hasOwnProperty(name)) name = "error";
 			routes[name]();
+			return true;
 		};
 
 		/**
@@ -78,10 +86,20 @@ abaaso.on("init", function () {
 		 * 
 		 * @param  {String}   name Route name
 		 * @param  {Function} fn   Route listener
-		 * @return {Undefined} undefined
+		 * @return {Mixed} True or undefined
 		 */
 		set = function (name, fn) {
-			routes[name] = fn;
+			try {
+				if (typeof name === "undefined" || String(name).isEmpty() || typeof fn !== "function")
+					throw Error($.label.error.invalidArguments);
+
+				routes[name] = fn;
+				return true;
+			}
+			catch (e) {
+				$.error(e, arguments, this);
+				return undefined;
+			}
 		};
 
 		// Setting listener
