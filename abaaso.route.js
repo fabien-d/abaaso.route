@@ -89,8 +89,9 @@ abaaso.on("init", function () {
 
 		// @constructor
 		return {
-			del : del,
-			set : set
+			del  : del,
+			load : load,
+			set  : set
 		}
 	})();
 
