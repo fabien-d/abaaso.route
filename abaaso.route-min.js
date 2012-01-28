@@ -33,6 +33,6 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 1.8
- * @version alpha
+ * @version 1.0
  */
 abaaso.on("init",function(){var a=window[abaaso.aliased],b;b=function(){var b,c,d,e;return d={error:function(){a.error(a.label.error.invalidArguments)}},b=function(a){delete d[a]},c=function(a){a=a.replace(/\#\!\//,""),d.hasOwnProperty(a)||(a="error"),d[a]()},e=function(a,b){d[a]=b},a.on("hash",function(a){c(a)},"route"),{del:b,load:c,set:e}}(),a.module("route",b)},"abaaso.route")

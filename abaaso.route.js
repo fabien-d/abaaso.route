@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 1.8
- * @version alpha
+ * @version 1.0
  */
 abaaso.on("init", function () {
 	var $ = window[abaaso.aliased],
