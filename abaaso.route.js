@@ -68,7 +68,7 @@ abaaso.on("init", function () {
 		 * @return {Undefined} undefined
 		 */
 		load = function (name) {
-			name = name.replace(/\#\!\//, "");
+			name = name.replace(/\#|\!\//, "");
 			if (!routes.hasOwnProperty(name)) name = "error";
 			routes[name]();
 		};
