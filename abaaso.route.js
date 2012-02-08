@@ -116,7 +116,7 @@
 	// AMD support
 	switch (true) {
 		case typeof define === "function":
-			define("abaaso.route", ["abaaso"], function () {
+			define("abaasoroute", ["abaaso"], function () {
 				$.module("route", route);
 				return route;
 			});
