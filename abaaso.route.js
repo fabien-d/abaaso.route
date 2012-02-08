@@ -109,17 +109,16 @@
 			load : load,
 			set  : set
 		}
-	})();
+	});
 
 	// AMD support
 	switch (true) {
 		case typeof define === "function":
 			define("abaaso.route", ["abaaso"], function () {
-				abaaso.module("route", route);
-				return route;
+				abaaso.module("route", route());
 			});
 			break;
 		default:
-			abaaso.on("init", function () { abaaso.module("route", route) }, "abaaso.route");
+			abaaso.on("init", function () { abaaso.module("route", route()) }, "abaaso.route");
 	}
 })();
