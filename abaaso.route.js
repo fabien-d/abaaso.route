@@ -33,9 +33,9 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 1.8
- * @version 1.1
+ * @version 1.2
  */
-abaaso.on("init", function () {
+(function (window) {
 	var $ = window[abaaso.aliased],
 	    route;
 
@@ -113,5 +113,15 @@ abaaso.on("init", function () {
 		}
 	})();
 
-	$.module("route", route);
-}, "abaaso.route");
+	// AMD support
+	switch (true) {
+		case typeof define === "function":
+			define("abaaso.route", ["abaaso"], function () {
+				$.module("route", route);
+				return route;
+			});
+			break;
+		default:
+			$.on("init", function () { $.module("route", route) }, "abaaso.route");
+	}
+})(window);

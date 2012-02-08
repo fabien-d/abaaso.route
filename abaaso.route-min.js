@@ -33,6 +33,6 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 1.8
- * @version 1.1
+ * @version 1.2
  */
-abaaso.on("init",function(){var a=window[abaaso.aliased],b;b=function(){var b,c,d,e;return d={error:function(){a.error(a.label.error.invalidArguments)}},b=function(b){try{if(b!=="error"&&d.hasOwnProperty(b))return delete d[b];throw Error(a.label.error.invalidArguments)}catch(c){return a.error(c,arguments,this),undefined}},c=function(a){return a=a.replace(/\#|\!\//g,""),d.hasOwnProperty(a)||(a="error"),d[a](),!0},e=function(b,c){try{if(typeof b=="undefined"||String(b).isEmpty()||typeof c!="function")throw Error(a.label.error.invalidArguments);return d[b]=c,!0}catch(e){return a.error(e,arguments,this),undefined}},a.on("hash",function(a){c(a)},"route"),{del:b,load:c,set:e}}(),a.module("route",b)},"abaaso.route")
+(function(a){var b=a[abaaso.aliased],c;c=function(){var a,c,d,e;return d={error:function(){b.error(b.label.error.invalidArguments)}},a=function(a){try{if(a!=="error"&&d.hasOwnProperty(a))return delete d[a];throw Error(b.label.error.invalidArguments)}catch(c){return b.error(c,arguments,this),undefined}},c=function(a){return a=a.replace(/\#|\!\//g,""),d.hasOwnProperty(a)||(a="error"),d[a](),!0},e=function(a,c){try{if(typeof a=="undefined"||String(a).isEmpty()||typeof c!="function")throw Error(b.label.error.invalidArguments);return d[a]=c,!0}catch(e){return b.error(e,arguments,this),undefined}},b.on("hash",function(a){c(a)},"route"),{del:a,load:c,set:e}}();switch(!0){case typeof define=="function":define("abaaso.route",["abaaso"],function(){return b.module("route",c),c});break;default:b.on("init",function(){b.module("route",c)},"abaaso.route")}})(window)
