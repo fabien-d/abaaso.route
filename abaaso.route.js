@@ -35,12 +35,10 @@
  * @requires abaaso 1.8
  * @version 1.2
  */
-(function (window) {
-	var $ = window[abaaso.aliased],
-	    route;
-
-	route = (function () {
-		var del, load, routes, set;
+(function () {
+	var route = (function () {
+		var $ = window[abaaso.aliased],
+		    del, load, routes, set;
 
 		// Routing listeners
 		routes = {
@@ -116,12 +114,12 @@
 	// AMD support
 	switch (true) {
 		case typeof define === "function":
-			define("abaasoroute", ["abaaso"], function () {
-				$.module("route", route);
+			define("abaaso.route", ["abaaso"], function () {
+				abaaso.module("route", route);
 				return route;
 			});
 			break;
 		default:
-			$.on("init", function () { $.module("route", route) }, "abaaso.route");
+			abaaso.on("init", function () { abaaso.module("route", route) }, "abaaso.route");
 	}
-})(window);
+})();
