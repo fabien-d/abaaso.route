@@ -108,10 +108,10 @@
 			del  : del,
 			load : load,
 			set  : set
-		}
+		};
 	}),
-	fn = function () { $.module("route", route()); };
+	fn = function () { abaaso.module("route", route()); };
 
 	// AMD support
-	typeof define === "function" ? define("abaaso.route", ["abaaso"], fn) : $.on("init", fn, "abaaso.route");
+	typeof define === "function" ? define("abaaso.route", ["abaaso"], fn) : abaaso.on("init", fn, "abaaso.route");
 })();
