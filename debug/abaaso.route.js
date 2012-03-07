@@ -35,10 +35,11 @@
  * @requires abaaso 1.8
  * @version 1.2
  */
-(function () {
-	var route = (function () {
-		var $ = window[abaaso.aliased],
-		    del, load, routes, set;
+(function (global) {
+	"use strict";
+
+	var route = (function ($) {
+		var del, load, routes, set;
 
 		// Routing listeners
 		routes = {
@@ -110,8 +111,8 @@
 			set  : set
 		};
 	}),
-	fn = function () { abaaso.module("route", route()); };
+	fn = function (abaaso) { return abaaso.module("route", route(global[abaaso.aliased])); };
 
 	// AMD support
 	typeof define === "function" ? define("abaaso.route", ["abaaso"], fn) : abaaso.on("init", fn, "abaaso.route");
-})();
+})(this);
