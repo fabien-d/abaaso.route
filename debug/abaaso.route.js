@@ -114,5 +114,5 @@
 	fn = function (abaaso) { return abaaso.module("route", route(global[abaaso.aliased])).route; };
 
 	// AMD support
-	typeof define === "function" ? define("abaasoRoute", ["abaaso"], fn) : abaaso.on("init", fn, "abaaso.route");
+	typeof define === "function" ? define("abaasoRoute", ["abaaso"], function (abaaso) { return fn(abaaso); }) : abaaso.on("init", fn, "abaaso.route");
 })(this);
