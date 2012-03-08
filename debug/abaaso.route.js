@@ -111,7 +111,10 @@
 			set  : set
 		};
 	}),
-	fn = function (abaaso) { return abaaso.module("route", route(global[abaaso.aliased])).route; };
+	fn = function (abaaso) {
+		abaaso.module("route", route(global[abaaso.aliased]));
+		return abaaso.route;
+	};
 
 	// AMD support
 	typeof define === "function" ? define("abaaso.route", ["abaaso"], function (abaaso) { return fn(abaaso); }) : abaaso.on("init", fn, "abaaso.route");
