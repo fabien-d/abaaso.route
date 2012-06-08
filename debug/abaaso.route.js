@@ -74,7 +74,8 @@
 		 * @return {Undefined} undefined
 		 */
 		init = function () {
-			document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
+			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
+			else load(document.location.hash);
 		};
 
 		/**
