@@ -32,14 +32,14 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 1.9.9
- * @version 1.3
+ * @requires abaaso 2.1.4
+ * @version 1.3.1
  */
 (function (global) {
 	"use strict";
 
 	var route = (function ($) {
-		var del, load, routes, set;
+		var del, init, load, routes, set;
 
 		// Routing listeners
 		routes = {
@@ -56,13 +56,25 @@
 		 */
 		del = function (name) {
 			try {
-				if (name !== "error" && routes.hasOwnProperty(name)) return (delete routes[name]);
+				if (name !== "error" && routes.hasOwnProperty(name)) {
+					if ($.route.default === name) $.route.default = null;
+					return (delete routes[name]);
+				}
 				else throw Error($.label.error.invalidArguments);
 			}
 			catch (e) {
 				$.error(e, arguments, this);
 				return undefined;
 			}
+		};
+
+		/**
+		 * Initializes the routing by loading the default OR the first route registered
+		 * 
+		 * @return {Undefined} undefined
+		 */
+		init = function () {
+			document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
 		};
 
 		/**
@@ -106,9 +118,11 @@
 
 		// @constructor
 		return {
-			del  : del,
-			load : load,
-			set  : set
+			default : null,
+			del     : del,
+			init    : init,
+			load    : load,
+			set     : set
 		};
 	}),
 	fn = function (abaaso) {
@@ -117,5 +131,5 @@
 	};
 
 	// AMD support
-	typeof define === "function" ? define("abaaso.route", ["abaaso"], function (abaaso) { return fn(abaaso); }) : abaaso.on("init", fn, "abaaso.route");
+	typeof define === "function" ? define(["abaaso"], function (abaaso) { return fn(abaaso); }) : abaaso.on("init", fn, "abaaso.route");
 })(this);

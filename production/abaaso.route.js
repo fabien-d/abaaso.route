@@ -32,7 +32,7 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 1.9.9
- * @version 1.3
+ * @requires abaaso 2.1.4
+ * @version 1.3.1
  */
-(function(a){"use strict";var b=function(a){var b,c,d,e;return d={error:function(){a.error(a.label.error.invalidArguments)}},b=function(b){try{if(b!=="error"&&d.hasOwnProperty(b))return delete d[b];throw Error(a.label.error.invalidArguments)}catch(c){return a.error(c,arguments,this),undefined}},c=function(a){return a=a.replace(/\#|\!\//g,""),d.hasOwnProperty(a)||(a="error"),d[a](),!0},e=function(b,c){try{if(typeof b=="undefined"||String(b).isEmpty()||typeof c!="function")throw Error(a.label.error.invalidArguments);return d[b]=c,!0}catch(e){return a.error(e,arguments,this),undefined}},a.on("hash",function(a){c(a)},"route"),{del:b,load:c,set:e}},c=function(c){return c.module("route",b(a[c.aliased])),c.route};typeof define=="function"?define("abaaso.route",["abaaso"],function(a){return c(a)}):abaaso.on("init",c,"abaaso.route")})(this)
+(function(a){"use strict";var b=function(a){var b,c,d,e,f;return e={error:function(){a.error(a.label.error.invalidArguments)}},b=function(b){try{if(b!=="error"&&e.hasOwnProperty(b))return a.route.default===b&&(a.route.default=null),delete e[b];throw Error(a.label.error.invalidArguments)}catch(c){return a.error(c,arguments,this),undefined}},c=function(){document.location.hash="!/"+(a.route.default!==null?a.route.default:a.array.cast(e,!0).remove("error").first())},d=function(a){return a=a.replace(/\#|\!\//g,""),e.hasOwnProperty(a)||(a="error"),e[a](),!0},f=function(b,c){try{if(typeof b=="undefined"||String(b).isEmpty()||typeof c!="function")throw Error(a.label.error.invalidArguments);return e[b]=c,!0}catch(d){return a.error(d,arguments,this),undefined}},a.on("hash",function(a){d(a)},"route"),{"default":null,del:b,init:c,load:d,set:f}},c=function(c){return c.module("route",b(a[c.aliased])),c.route};typeof define=="function"?define(["abaaso"],function(a){return c(a)}):abaaso.on("init",c,"abaaso.route")})(this)
