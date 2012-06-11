@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 2.1.4
- * @version 1.3.1
+ * @version 1.3.2
  */
 (function (global) {
 	"use strict";
@@ -45,6 +45,7 @@
 		routes = {
 			error : function () {
 				$.error($.label.error.invalidArguments);
+				if ($.route.default !== null) document.location.hash = "!/" + $.route.default;
 			}
 		}
 
