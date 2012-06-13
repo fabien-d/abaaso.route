@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 2.1.4
- * @version 1.3.2
+ * @version 1.3.3
  */
 (function (global) {
 	"use strict";
@@ -72,11 +72,12 @@
 		/**
 		 * Initializes the routing by loading the default OR the first route registered
 		 * 
-		 * @return {Undefined} undefined
+		 * @return {String} Route being loaded
 		 */
 		init = function () {
 			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
 			else load(document.location.hash);
+			return document.location.hash.replace(/\#|\!\//g, "");
 		};
 
 		/**
