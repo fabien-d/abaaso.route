@@ -32,14 +32,17 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 2.1.4
- * @version 1.3.3
+ * @requires abaaso 2.2.4
+ * @version 1.3.4
  */
 (function (global) {
 	"use strict";
 
-	var route = (function ($) {
-		var del, init, load, routes, set;
+	var route, fn;
+
+	// Singleton
+	route = (function ($) {
+		var del, init, list, load, routes, set;
 
 		// Routing listeners
 		routes = {
@@ -56,17 +59,11 @@
 		 * @return {Mixed} True or undefined
 		 */
 		del = function (name) {
-			try {
-				if (name !== "error" && routes.hasOwnProperty(name)) {
-					if ($.route.default === name) $.route.default = null;
-					return (delete routes[name]);
-				}
-				else throw Error($.label.error.invalidArguments);
+			if (name !== "error" && routes.hasOwnProperty(name)) {
+				if ($.route.default === name) $.route.default = null;
+				return (delete routes[name]);
 			}
-			catch (e) {
-				$.error(e, arguments, this);
-				return undefined;
-			}
+			else throw Error($.label.error.invalidArguments);
 		};
 
 		/**
@@ -78,6 +75,15 @@
 			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
 			else load(document.location.hash);
 			return document.location.hash.replace(/\#|\!\//g, "");
+		};
+
+		/**
+		 * Lists all routes
+		 * 
+		 * @return {Array}        Array of registered routes
+		 */
+		list = function () {
+			return $.array.cast(routes, true);
 		};
 
 		/**
@@ -103,36 +109,29 @@
 		 * @return {Mixed} True or undefined
 		 */
 		set = function (name, fn) {
-			try {
-				if (typeof name === "undefined" || String(name).isEmpty() || typeof fn !== "function")
-					throw Error($.label.error.invalidArguments);
+			if (typeof name === "undefined" || String(name).isEmpty() || typeof fn !== "function") throw Error($.label.error.invalidArguments);
 
-				routes[name] = fn;
-				return true;
-			}
-			catch (e) {
-				$.error(e, arguments, this);
-				return undefined;
-			}
+			routes[name] = fn;
+			return true;
 		};
-
-		// Setting listener
-		$.on("hash", function (arg) { load(arg); }, "route");
 
 		// @constructor
 		return {
 			default : null,
 			del     : del,
 			init    : init,
+			list    : list,
 			load    : load,
 			set     : set
 		};
-	}),
+	});
+
+	// Bootstrap
 	fn = function (abaaso) {
 		abaaso.module("route", route(global[abaaso.aliased]));
+		abaaso.on("hash", function (arg) { this.load(arg); }, "route", abaaso.route, "all");
 		return abaaso.route;
 	};
 
-	// AMD support
 	typeof define === "function" ? define(["abaaso"], function (abaaso) { return fn(abaaso); }) : abaaso.on("init", fn, "abaaso.route");
 })(this);
