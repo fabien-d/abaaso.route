@@ -32,8 +32,8 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 2.2.4
- * @version 1.3.4
+ * @requires abaaso 2.2.5
+ * @version 1.3.5
  */
 (function (global) {
 	"use strict";
@@ -41,14 +41,15 @@
 	var route, fn;
 
 	// Singleton
-	route = (function ($) {
-		var del, init, list, load, routes, set;
+	route = function () {
+		var $ = global[abaaso.aliased],
+		    del, init, list, load, routes, set;
 
 		// Routing listeners
 		routes = {
 			error : function () {
 				$.error($.label.error.invalidArguments);
-				if ($.route.default !== null) document.location.hash = "!/" + $.route.default;
+				if ($.route.initial !== null) document.location.hash = "!/" + $.route.initial;
 			}
 		}
 
@@ -60,19 +61,19 @@
 		 */
 		del = function (name) {
 			if (name !== "error" && routes.hasOwnProperty(name)) {
-				if ($.route.default === name) $.route.default = null;
+				if ($.route.initial === name) $.route.initial = null;
 				return (delete routes[name]);
 			}
 			else throw Error($.label.error.invalidArguments);
 		};
 
 		/**
-		 * Initializes the routing by loading the default OR the first route registered
+		 * Initializes the routing by loading the initial OR the first route registered
 		 * 
 		 * @return {String} Route being loaded
 		 */
 		init = function () {
-			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.default !== null ? $.route.default : $.array.cast(routes, true).remove("error").first());
+			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first());
 			else load(document.location.hash);
 			return document.location.hash.replace(/\#|\!\//g, "");
 		};
@@ -117,18 +118,18 @@
 
 		// @constructor
 		return {
-			default : null,
+			initial : null,
 			del     : del,
 			init    : init,
 			list    : list,
 			load    : load,
 			set     : set
 		};
-	});
+	};
 
 	// Bootstrap
 	fn = function (abaaso) {
-		abaaso.module("route", route(global[abaaso.aliased]));
+		abaaso.module("route", route());
 		abaaso.on("hash", function (arg) { this.load(arg); }, "route", abaaso.route, "all");
 		return abaaso.route;
 	};
