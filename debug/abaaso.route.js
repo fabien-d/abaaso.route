@@ -32,8 +32,8 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 2.2.5
- * @version 1.3.5
+ * @requires abaaso 2.2.8
+ * @version 1.3.6
  */
 (function (global) {
 	"use strict";
@@ -43,13 +43,14 @@
 	// Singleton
 	route = function () {
 		var $ = global[abaaso.aliased],
-		    del, init, list, load, routes, set;
+		    s = /\#|\!\//g,
+		    del, hash, init, list, load, routes, set;
 
 		// Routing listeners
 		routes = {
 			error : function () {
 				$.error($.label.error.invalidArguments);
-				if ($.route.initial !== null) document.location.hash = "!/" + $.route.initial;
+				if ($.route.initial !== null) hash($.route.initial);
 			}
 		}
 
@@ -68,14 +69,29 @@
 		};
 
 		/**
+		 * Getter / setter for the hashbang
+		 * 
+		 * @param  {String} arg Route to set, no leading slash
+		 * @return {Mixed}      Current route, or true if setting a new route
+		 */
+		hash = function (arg) {
+			var output = true;
+
+			if (typeof arg === "undefined") output = document.location.hash.replace(s, "");
+			else document.location.hash = "!/" + arg;
+			return output;
+		};
+
+		/**
 		 * Initializes the routing by loading the initial OR the first route registered
 		 * 
 		 * @return {String} Route being loaded
 		 */
 		init = function () {
-			if (!/\w/.test(document.location.hash)) document.location.hash = "!/" + ($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first());
-			else load(document.location.hash);
-			return document.location.hash.replace(/\#|\!\//g, "");
+			var val = document.location.hash;
+
+			!/\w/.test(val) ? hash($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first()) : load(val);
+			return val.replace(s, "");
 		};
 
 		/**
@@ -96,7 +112,7 @@
 		 * @return {Mixed} True or undefined
 		 */
 		load = function (name) {
-			name = name.replace(/\#|\!\//g, "");
+			name = name.replace(s, "");
 			if (!routes.hasOwnProperty(name)) name = "error";
 			routes[name]();
 			return true;
@@ -120,6 +136,7 @@
 		return {
 			initial : null,
 			del     : del,
+			hash    : hash,
 			init    : init,
 			list    : list,
 			load    : load,
