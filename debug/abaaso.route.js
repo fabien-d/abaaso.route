@@ -32,8 +32,8 @@
  *
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
- * @requires abaaso 2.2.8
- * @version 1.3.6
+ * @requires abaaso 2.4.0
+ * @version 1.3.7
  */
 (function (global) {
 	"use strict";
@@ -112,9 +112,19 @@
 		 * @return {Mixed} True or undefined
 		 */
 		load = function (name) {
+			var route = "error",
+			    regex = new RegExp(),
+			    match = false;
+
 			name = name.replace(s, "");
-			if (!routes.hasOwnProperty(name)) name = "error";
-			routes[name]();
+			$.iterate(routes, function (v, k) {
+				regex.compile("^" + k + "$", "i");
+				if (regex.test(name)) {
+					route = k;
+					return false;
+				}
+			});
+			routes[route]();
 			return true;
 		};
 
