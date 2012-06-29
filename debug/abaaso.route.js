@@ -113,8 +113,7 @@
 		 */
 		load = function (name) {
 			var route = "error",
-			    regex = new RegExp(),
-			    match = false;
+			    regex = new RegExp();
 
 			name = name.replace(s, "");
 			$.iterate(routes, function (v, k) { if ($.compile(regex, "^" + k + "$", "i") && regex.test(name)) return !(route = k); });
