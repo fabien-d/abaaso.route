@@ -117,13 +117,7 @@
 			    match = false;
 
 			name = name.replace(s, "");
-			$.iterate(routes, function (v, k) {
-				regex.compile("^" + k + "$", "i");
-				if (regex.test(name)) {
-					route = k;
-					return false;
-				}
-			});
+			$.iterate(routes, function (v, k) { if ($.compile(regex, "^" + k + "$", "i") && regex.test(name)) return !(route = k); });
 			routes[route]();
 			return true;
 		};
