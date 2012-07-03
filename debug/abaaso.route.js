@@ -116,7 +116,7 @@
 		 */
 		load = function (name) {
 			var route = "error",
-			    regex = new RegExp()
+			    regex = new RegExp(),
 			    hash  = this.hash();
 
 			name = name.replace(s, "");
