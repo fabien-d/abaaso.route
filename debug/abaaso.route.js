@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 2.4.0
- * @version 1.3.7
+ * @version 1.3.8
  */
 (function (global) {
 	"use strict";
@@ -113,11 +113,12 @@
 		 */
 		load = function (name) {
 			var route = "error",
-			    regex = new RegExp();
+			    regex = new RegExp()
+			    hash  = this.hash();
 
 			name = name.replace(s, "");
 			$.iterate(routes, function (v, k) { if ($.compile(regex, "^" + k + "$", "i") && regex.test(name)) return !(route = k); });
-			routes[route]();
+			routes[route](hash);
 			return true;
 		};
 
