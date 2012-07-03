@@ -71,14 +71,17 @@
 		/**
 		 * Getter / setter for the hashbang
 		 * 
-		 * @param  {String} arg Route to set, no leading slash
-		 * @return {Mixed}      Current route, or true if setting a new route
+		 * @param  {String} arg Route to set
+		 * @return {String}     Current route
 		 */
 		hash = function (arg) {
-			var output = true;
+			var output = "";
 
 			if (typeof arg === "undefined") output = document.location.hash.replace(s, "");
-			else document.location.hash = "!/" + arg;
+			else {
+				output = arg.replace(s, "");
+				document.location.hash = "!/" + output;
+			}
 			return output;
 		};
 
