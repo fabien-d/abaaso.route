@@ -117,11 +117,11 @@
 		load = function (name) {
 			var route = "error",
 			    regex = new RegExp(),
-			    hash  = this.hash();
+			    h     = hash();
 
 			name = name.replace(s, "");
 			$.iterate(routes, function (v, k) { if ($.compile(regex, "^" + k + "$", "i") && regex.test(name)) return !(route = k); });
-			routes[route](hash);
+			routes[route](h);
 			return true;
 		};
 
