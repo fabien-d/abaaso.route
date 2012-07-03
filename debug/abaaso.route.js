@@ -95,7 +95,7 @@
 		init = function () {
 			var val = document.location.hash;
 
-			w.test(val) ? hash($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first()) : load(val);
+			!w.test(val) ? hash($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first()) : load(val);
 			return val.replace(s, "");
 		};
 
