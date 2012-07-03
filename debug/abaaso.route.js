@@ -33,7 +33,7 @@
  * @author Jason Mulligan <jason.mulligan@avoidwork.com>
  * @link http://avoidwork.com
  * @requires abaaso 2.4.0
- * @version 1.3.8
+ * @version 1.3.9
  */
 (function (global) {
 	"use strict";
@@ -44,6 +44,8 @@
 	route = function () {
 		var $ = global[abaaso.aliased],
 		    s = /\#|\!\//g,
+		    r = new RegExp(),
+		    w = /\w/,
 		    del, hash, init, list, load, routes, set;
 
 		// Routing listeners
@@ -93,14 +95,14 @@
 		init = function () {
 			var val = document.location.hash;
 
-			!/\w/.test(val) ? hash($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first()) : load(val);
+			w.test(val) ? hash($.route.initial !== null ? $.route.initial : $.array.cast(routes, true).remove("error").first()) : load(val);
 			return val.replace(s, "");
 		};
 
 		/**
 		 * Lists all routes
 		 * 
-		 * @return {Array}        Array of registered routes
+		 * @return {Array} Array of registered routes
 		 */
 		list = function () {
 			return $.array.cast(routes, true);
@@ -112,14 +114,13 @@
 		 * @method load
 		 * @module dashboard
 		 * @param  {String} name Route to load
-		 * @return {Mixed} True or undefined
+		 * @return {Mixed}       True or undefined
 		 */
 		load = function (name) {
-			var route = "error",
-			    regex = new RegExp();
+			var route = "error";
 
 			name = name.replace(s, "");
-			$.iterate(routes, function (v, k) { if ($.compile(regex, "^" + k + "$", "i") && regex.test(name)) return !(route = k); });
+			$.iterate(routes, function (v, k) { if ($.compile(r, "^" + k + "$", "i") && r.test(name)) return !(route = k); });
 			routes[route](name);
 			return true;
 		};
@@ -127,12 +128,12 @@
 		/**
 		 * Sets a route for a URI
 		 * 
-		 * @param  {String}   name Route name
+		 * @param  {String}   name Regex pattern for the route
 		 * @param  {Function} fn   Route listener
-		 * @return {Mixed} True or undefined
+		 * @return {Mixed}         True or undefined
 		 */
 		set = function (name, fn) {
-			if (typeof name === "undefined" || String(name).isEmpty() || typeof fn !== "function") throw Error($.label.error.invalidArguments);
+			if (typeof name !== "string" || name.isEmpty() || typeof fn !== "function") throw Error($.label.error.invalidArguments);
 
 			routes[name] = fn;
 			return true;
