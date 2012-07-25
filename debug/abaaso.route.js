@@ -120,7 +120,8 @@
 			var route = "error";
 
 			name = name.replace(s, "");
-			$.iterate(routes, function (v, k) { if ($.compile(r, "^" + k + "$", "i") && r.test(name)) return !(route = k); });
+			if (typeof routes[name] !== "undefined") route = name;
+			else $.iterate(routes, function (v, k) { if ($.compile(r, "^" + k + "$", "i") && r.test(name)) return !(route = k); });
 			routes[route](name);
 			return true;
 		};
